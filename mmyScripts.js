@@ -1,4 +1,4 @@
-//  プラグイン  mmyScripts  Version 1.1
+//  プラグイン  mmyScripts  Version 1.11
 //  2018/2/20 by Tex
 //  http://tex1.symphonic-net.com/
 //
@@ -24,7 +24,7 @@ var mmyScripts = (function() {
 
   //  スピン用変数
   mmySpin_simg = new Array(8);
-  var mmySpin_spinFlag = false; //アニメーションカウンタ
+  var mmySpin_spinFlag = 0; //アニメーションカウンタ
   var mmySpin_spinUse = false;
 
   //  HP用変数
@@ -40,11 +40,11 @@ var mmyScripts = (function() {
   var mmyAg_def = false;
 
   //  反重力用変数
-  var muki;
+  var muki = 0;
   var agRc, agc = 0,
     ob_c = 0,
     j_count = 8,
-    gmoc;
+    gmoc = 0;
 
   //  スターリング用変数
   var str_simg = new Array(3);
@@ -114,7 +114,7 @@ var mmyScripts = (function() {
     }
 
     //  スピン初期化
-    mmySpin_spinFlag = false;
+    mmySpin_spinFlag = 0;
     mmySpin_spinUse = false;
 
     //  HP初期化
@@ -161,6 +161,8 @@ var mmyScripts = (function() {
     agc = 0;
     ob_c = 2;
     j_count = 8;
+
+    //mmySpin_spinUse = false;
   }
 
   //  拡張仕掛け　設置
@@ -635,6 +637,8 @@ var mmyScripts = (function() {
     },
     gameEvent: function(os_g, ap, view_x, view_y) {
       //  ゲーム中
+      myX = ap.getMyX();
+      myY = ap.getMyY();
 
       //  拡張仕掛け　動作
       moveExtendAth(ap, view_x, view_y);
@@ -643,7 +647,7 @@ var mmyScripts = (function() {
 
       //  スピン攻撃
       if (mmySpin_spinUse == true) {
-        mmy_Spin(ap);
+        //mmy_Spin(ap);
       }
 
       //  HP
