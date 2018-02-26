@@ -1,4 +1,4 @@
-//  プラグイン  mmyScripts  Version 1.11
+//  プラグイン  mmyScripts  Version 1.12
 //  2018/2/20 by Tex
 //  http://tex1.symphonic-net.com/
 //
@@ -439,6 +439,10 @@ var mmyScripts = (function() {
     muki = ap.getMyDirection();
     gmoc = ap.getMyObjectCondition();
 
+    if(gmoc >= 200){
+      ap.setMyObjectImage(null, 0, 0);
+      mmy_AG(ap, false);
+    }
     //  デバッグ用、Aキーで反重力モード
     /*
     if (key == 65) {
