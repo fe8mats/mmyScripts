@@ -1,6 +1,8 @@
-//  プラグイン  mmyScripts  Version 1.12
+//  プラグイン  mmyScripts  Version 1.13-k
 //  2018/2/20 by Tex
 //  http://tex1.symphonic-net.com/
+//
+//  2018/2/26 by kururin
 //
 //  実装：スピン攻撃、HP表示、反重力、スターリング
 //  使用にはプラグインマネージャーが必要です
@@ -40,6 +42,8 @@ var mmyScripts = (function() {
   var mmyAg_def = false;
 
   //  反重力用変数
+  var mmyAg_preVX = 0; // 踏みつけ前のVX
+  var mmyAg_pressed = false; // 踏みつけ後、着地までtrue
   var muki = 0;
   var agRc, agc = 0,
     ob_c = 0,
@@ -87,7 +91,7 @@ var mmyScripts = (function() {
     }
 
     //  反重力用の主人公パターンを作成
-    for (i = 0; i < 9; i++) {
+    for (i = 0; i <= 9; i++) {
       ag_imgL[i] = ap.getChipImage(mmy_sid, i + 100, 2);
       ag_imgR[i] = ap.getChipImage(mmy_sid, i + 100, 3);
     }
@@ -122,6 +126,8 @@ var mmyScripts = (function() {
 
     //  反重力初期化
     mmyAg_def = false;
+    mmyAg_pressed = false;
+    mmyAg_preVX = 0;
 
     //  スターリング初期化
     mmy_str_c = 0;
@@ -414,6 +420,9 @@ var mmyScripts = (function() {
       ap.setYukaType(agy1, 2);
       ap.setMyObjectImage(null, 0, 0);
     }
+
+    mmyAg_pressed = false;
+    ap.setEnemyPress(bl ? 2 : 1);
   }
   //  反重力　動作
   function mmy_AntiGravity(os_g, ap) {
@@ -485,6 +494,16 @@ var mmyScripts = (function() {
     if (agc == 1) {
       ap.resetKeyCode();
       ap.setMyVY(-165);
+
+      // 反重力踏み
+      if (ap.destroyEnemy(myXr + ap.getMyVX() / 10, myYr - 16, 32, 16)) {
+          agc = 4;
+          j_count = 0;
+
+          mmyAg_pressed = true;
+          mmyAg_preVX = ap.getMyVX();
+      }
+
       if (ag_h == 20 || ag_h == 21 || ag_h == 22 || ag_h == 23 || ag_h == 24 || ag_h == 25 || ag_h == 26 || ag_h == 27 || ag_h == 28 || ag_h == 29 || ag_h == 31 || ag_h == 40 || ag_h == 41 || ag_h == 50 || ag_h == 60 || ag_h == 61 || ag_h == 62 || ag_h == 63 || ag_h == 64 || ag_h == 65 || ag_h == 66 || ag_h == 67 || ag_h == 69 || ag_h == 180 || ag_h == 181 || ag_h == 182 || ag_h == 183 || ag_h == 184 || ag_h == 185 || ag_h == 190 || ag_h == 191 || ag_h == 192 || ag_h == 193 || ag_h == 194 || ag_h == 195) {
         agc = 2;
       } else {
@@ -497,8 +516,29 @@ var mmyScripts = (function() {
       }
     }
 
+    // 踏みつけている時
+    if (agc == 4) {
+      if (j_count > 3) {
+        ap.setMyVX(mmyAg_preVX);
+        agc = 3;
+        j_count = 0;
+      } else {
+        ap.setMyWait(1, 0, muki);
+      }
+    }
+
+    if (agc != 2 && mmyAg_pressed) {
+      if (muki == 0) {
+        ap.setMyObjectImage(ag_imgL[9], 0, 0);
+      }
+      if (muki == 1) {
+        ap.setMyObjectImage(ag_imgR[9], 0, 0);
+      }
+    }
+
     //地面に張り付いた時
     if (agc == 2) {
+      mmyAg_pressed = false;
 
       if (key == 32 || key == 90) {
         j_count = 0;
