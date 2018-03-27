@@ -357,7 +357,7 @@ var mmyScripts = (function() {
     //  自分
     var my_x = ap.getMyXReal(); //  Ｘ座標
     var my_y = ap.getMyYReal(); //  Ｙ座標
-    var my_fumi_f = false;		//  踏み潰しフラグ
+    var my_fumi_f = false; //  踏み潰しフラグ
     var my_x_block = ap.getMyX();
     var my_y_block = ap.getMyY();
     muki = ap.getMyDirection();
@@ -368,16 +368,16 @@ var mmyScripts = (function() {
     for (var i = 0; i <= ea_id_max; i++) {
       if (ea_con[i] == 0) continue;
       switch (ea_con[i]) {
-        case 500:	//  潰れた  コウモリ
-					ea_pt[i] = 149;
+        case 500: //  潰れた  コウモリ
+          ea_pt[i] = 149;
           ea_pt2[i] = komori_simg[5 + ea_ptr[i]];
-					ea_c1[i]++;
-					if(ea_c1[i] >= 10){
-						//  消える
-						ea_con[i] = 0;
-						ap.addScore(10);
-					}
-					break;
+          ea_c1[i]++;
+          if (ea_c1[i] >= 10) {
+            //  消える
+            ea_con[i] = 0;
+            ap.addScore(10);
+          }
+          break;
         case 1000: //  重力パネル
 
           //  画面外
@@ -546,80 +546,76 @@ var mmyScripts = (function() {
           ea_pt2[i] = komori_simg[0];
 
           //近くに寄ったら目がさめる
-          if (my_x >= ea_x[i] - 4*32 && my_x <= ea_x[i] && my_y > ea_y[i] && my_y < ea_y[i] + 128) {
+          if (my_x >= ea_x[i] - 4 * 32 && my_x <= ea_x[i] && my_y > ea_y[i] && my_y < ea_y[i] + 128) {
             ea_con[i] = 1151;
             ea_vx[i] = 2;
           }
 
           //  自分との当たり判定
-					if(my_x+31 >= ea_x[i]+4  &&  my_x <= ea_x[i]+31-4  &&
-						my_y+31 >= ea_y[i]+8  &&  my_y <= ea_y[i]+31){
-						if(ap.getMyVY() > 10  ||  my_fumi_f == true){
-							//  自分が降下中
+          if (my_x + 31 >= ea_x[i] + 4 && my_x <= ea_x[i] + 31 - 4 &&
+            my_y + 31 >= ea_y[i] + 8 && my_y <= ea_y[i] + 31) {
+            if (ap.getMyVY() > 10 || my_fumi_f == true) {
+              //  自分が降下中
 
-							//  踏み潰す
-							ea_con[i] = 500;
-							ea_pt[i] = 149;
+              //  踏み潰す
+              ea_con[i] = 500;
+              ea_pt[i] = 149;
               ea_pt2[i] = komori_simg[5 + ea_ptr[i]];
-							ea_c1[i] = 0;
-							my_fumi_f = true;
+              ea_c1[i] = 0;
+              my_fumi_f = true;
 
-							//  自分
-							ap.setMyPress(1);
-							ap.setMyYReal(ea_y[i]-12);
-						}
-						else{
-							//  自分  死亡
-							ap.setMyMiss(2);
-						}
-					}
+              //  自分
+              ap.setMyPress(1);
+              ap.setMyYReal(ea_y[i] - 12);
+            } else {
+              //  自分  死亡
+              ap.setMyMiss(2);
+            }
+          }
 
           break;
         case 1151: // コウモリ　移動
           vx = ea_vx[i]; //速度
-          if(vx < 0){
-						ea_x[i] += vx;
+          if (vx < 0) {
+            ea_x[i] += vx;
 
-					 if(ea_x[i] <= ea_x_or[i]-9*32){
-							ea_x[i] = ea_x_or[i]-9*32;
-							ea_vx[i] = 2;
+            if (ea_x[i] <= ea_x_or[i] - 9 * 32) {
+              ea_x[i] = ea_x_or[i] - 9 * 32;
+              ea_vx[i] = 2;
               ea_ptr[i] = 1;
-						}
-					}
-          else if(vx > 0){
-						ea_x[i] += vx;
+            }
+          } else if (vx > 0) {
+            ea_x[i] += vx;
             if (ea_x[i] == ea_x_or[i]) {
               ea_vx[i] = 0;
               ea_c2[i] = 1;
-            }
-						else if(ea_x[i] > ea_x_or[i]){
-							ea_x[i] = ea_x_or[i];
-							ea_vx[i] = -2;
+            } else if (ea_x[i] > ea_x_or[i]) {
+              ea_x[i] = ea_x_or[i];
+              ea_vx[i] = -2;
               ea_ptr[i] = 0;
-						}
-					}
+            }
+          }
 
-          vy = ea_vy[i];		//  速度
-          if(ea_y[i] < ea_y_or[i]+6  ||  ea_y[i] > ea_y_or[i]+96-6){
-						//  減速
-						vy /= 2;
-					}
-          if(vy < 0){
-						ea_y[i] += vy;
+          vy = ea_vy[i]; //  速度
+          if (ea_y[i] < ea_y_or[i] + 6 || ea_y[i] > ea_y_or[i] + 96 - 6) {
+            //  減速
+            vy /= 2;
+          }
+          if (vy < 0) {
+            ea_y[i] += vy;
             if (ea_y[i] == ea_y_or[i] && ea_c2[i] == 1) {
               ea_con[i] = 1150;
-            }else if(ea_y[i] <= ea_y_or[i]){
-							ea_y[i] = ea_y_or[i];
-							ea_vy[i] = 6;
-						}
-					}
-          else if(vy > 0){
-						ea_y[i] += vy;
-            if(ea_y[i] >= ea_y_or[i]+96){
-							ea_y[i] = ea_y_or[i]+96;
-							ea_vy[i] = -6;
-						}
-					}
+            } else if (ea_y[i] <= ea_y_or[i]) {
+              ea_y[i] = ea_y_or[i];
+              ea_vy[i] = 6;
+            }
+          } else if (vy > 0) {
+            ea_y[i] += vy;
+            if (ea_y[i] >= ea_y_or[i] + 96) {
+              ea_y[i] = ea_y_or[i] + 96;
+              ea_vy[i] = -6;
+            }
+          }
 
           if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
             ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
@@ -628,37 +624,35 @@ var mmyScripts = (function() {
           }
 
           //  パターン
-					if(ac_4 <= 1){
-						ea_pt[i] = 147;
-            ea_pt2[i] = komori_simg[1 + ea_ptr[i]*2];
-					}
-					else{
-						ea_pt[i] = 148;
-            ea_pt2[i] = komori_simg[2 + ea_ptr[i]*2];
-					}
+          if (ac_4 <= 1) {
+            ea_pt[i] = 147;
+            ea_pt2[i] = komori_simg[1 + ea_ptr[i] * 2];
+          } else {
+            ea_pt[i] = 148;
+            ea_pt2[i] = komori_simg[2 + ea_ptr[i] * 2];
+          }
 
           //  自分との当たり判定
-					if(my_x+31 >= ea_x[i]+4  &&  my_x <= ea_x[i]+31-4  &&
-						my_y+31 >= ea_y[i]+8  &&  my_y <= ea_y[i]+31){
-						if(ap.getMyVY() > 10  ||  my_fumi_f == true){
-							//  自分が降下中
+          if (my_x + 31 >= ea_x[i] + 4 && my_x <= ea_x[i] + 31 - 4 &&
+            my_y + 31 >= ea_y[i] + 8 && my_y <= ea_y[i] + 31) {
+            if (ap.getMyVY() > 10 || my_fumi_f == true) {
+              //  自分が降下中
 
-							//  踏み潰す
-							ea_con[i] = 500;
-							ea_pt[i] = 149;
+              //  踏み潰す
+              ea_con[i] = 500;
+              ea_pt[i] = 149;
               ea_pt2[i] = komori_simg[5 + ea_ptr[i]];
-							ea_c1[i] = 0;
-							my_fumi_f = true;
+              ea_c1[i] = 0;
+              my_fumi_f = true;
 
-							//  自分
-							ap.setMyPress(1);
-							ap.setMyYReal(ea_y[i]-12);
-						}
-						else{
-							//  自分  死亡
-							ap.setMyMiss(2);
-						}
-					}
+              //  自分
+              ap.setMyPress(1);
+              ap.setMyYReal(ea_y[i] - 12);
+            } else {
+              //  自分  死亡
+              ap.setMyMiss(2);
+            }
+          }
 
           break;
       }
@@ -1026,7 +1020,7 @@ var mmyScripts = (function() {
       myY = ap.getMyY();
 
       ac_4++;
-			if(ac_4 > 3) ac_4 = 0;
+      if (ac_4 > 3) ac_4 = 0;
 
       //  拡張仕掛け　動作
       moveExtendAth(os_g, ap, view_x, view_y);
