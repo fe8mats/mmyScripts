@@ -1,5 +1,5 @@
-//  プラグイン  mmyScripts  Version 1.14
-//  2018/3/27 by Tex
+//  プラグイン  mmyScripts  Version 1.15
+//  2018/3/30 by Tex
 //  http://mmy.fe8works.com/
 //
 //  2018/2/26 by kururin 1.13-k
@@ -20,11 +20,60 @@
 //  5002 - スターリング上
 //  5003 - スターリング左
 //  5004 - スターリング右
-//  5005 - 縁を描くように動く床*２ 右
-//  5006 - 縁を描くように動く床*２ 左
-//  5007 - 縁を描くように動く床*４ 右
-//  5008 - 縁を描くように動く床*４ 左
-//  5008 - スーパー正男２のコウモリ
+//  5005 - 円を描くように動く床*２ 右
+//  5006 - 円を描くように動く床*２ 左
+//  5007 - 円を描くように動く床*４ 右
+//  5008 - 円を描くように動く床*４ 左
+//  5009 - スーパー正男２のコウモリ
+//  5010 - 羽根つきアイテムボックス　1UP
+//  5011 - 羽根つきアイテムボックス　コイン
+//  5012 - 羽根つきアイテムボックス　ファイアボール
+//  5013 - 羽根つきアイテムボックス　バリア
+//  5014 - 羽根つきアイテムボックス　タイム
+//  5015 - 羽根つきアイテムボックス　ジェット
+//  5016 - 羽根つきアイテムボックス　ヘルメット
+//  5017 - 羽根つきアイテムボックス　しっぽ
+//  5018 - 羽根つきアイテムボックス　ドリル
+//  5019 - 羽根つきアイテムボックス　グレネード
+//  5020 - 羽根つきアイテムボックス右移動　1UP
+//  5021 - 羽根つきアイテムボックス右移動　コイン
+//  5022 - 羽根つきアイテムボックス右移動　ファイアボール
+//  5023 - 羽根つきアイテムボックス右移動　バリア
+//  5024 - 羽根つきアイテムボックス右移動　タイム
+//  5025 - 羽根つきアイテムボックス右移動　ジェット
+//  5026 - 羽根つきアイテムボックス右移動　ヘルメット
+//  5027 - 羽根つきアイテムボックス右移動　しっぽ
+//  5028 - 羽根つきアイテムボックス右移動　ドリル
+//  5029 - 羽根つきアイテムボックス右移動　グレネード
+//  5030 - 羽根つきアイテムボックス左移動　1UP
+//  5031 - 羽根つきアイテムボックス左移動　コイン
+//  5032 - 羽根つきアイテムボックス左移動　ファイアボール
+//  5033 - 羽根つきアイテムボックス左移動　バリア
+//  5034 - 羽根つきアイテムボックス左移動　タイム
+//  5035 - 羽根つきアイテムボックス左移動　ジェット
+//  5036 - 羽根つきアイテムボックス左移動　ヘルメット
+//  5037 - 羽根つきアイテムボックス左移動　しっぽ
+//  5038 - 羽根つきアイテムボックス左移動　ドリル
+//  5039 - 羽根つきアイテムボックス左移動　グレネード
+//  5040 - 羽根つきアイテムボックス壁反転　1UP
+//  5041 - 羽根つきアイテムボックス壁反転　コイン
+//  5042 - 羽根つきアイテムボックス壁反転　ファイアボール
+//  5043 - 羽根つきアイテムボックス壁反転　バリア
+//  5044 - 羽根つきアイテムボックス壁反転　タイム
+//  5045 - 羽根つきアイテムボックス壁反転　ジェット
+//  5046 - 羽根つきアイテムボックス壁反転　ヘルメット
+//  5047 - 羽根つきアイテムボックス壁反転　しっぽ
+//  5048 - 羽根つきアイテムボックス壁反転　ドリル
+//  5049 - 羽根つきアイテムボックス壁反転　グレネード
+//  5050 - 放置アイテム 1UP
+//  5051 - 放置アイテム ファイアボール
+//  5052 - 放置アイテム バリア
+//  5053 - 放置アイテム タイム
+//  5054 - 放置アイテム ジェット
+//  5055 - 放置アイテム ヘルメット
+//  5056 - 放置アイテム しっぽ
+//  5057 - 放置アイテム ドリル
+//  5058 - 放置アイテム グレネード
 
 var mmyScripts = (function() {
   //  クロージャ内変数
@@ -65,6 +114,8 @@ var mmyScripts = (function() {
 
   var yuka1_img = [];
 
+  var wing_simg = [];
+
   //  拡張仕掛け用変数
   var ea_id_max = 0; // ＩＤ最大値
   var ea_con = []; //  状態
@@ -91,6 +142,7 @@ var mmyScripts = (function() {
   var ea_yuka4 = [];
 
   var ac_4 = 0;
+  var ac_8 = 0;
 
   //  起動時の初期化
   function initLoad(ap) {
@@ -145,6 +197,11 @@ var mmyScripts = (function() {
 
     //  移動床用の画像を取得
     yuka1_img[0] = ap.getChipImage(mmy_sid2, 57, 0);
+
+    wing_simg[0] = ap.getChipImage(mmy_sid, 264, 0);
+    wing_simg[1] = ap.getChipImage(mmy_sid, 265, 0);
+    wing_simg[2] = ap.getChipImage(mmy_sid, 264, 1);
+    wing_simg[3] = ap.getChipImage(mmy_sid, 265, 1);
 
 
   }
@@ -226,6 +283,8 @@ var mmyScripts = (function() {
       ea_vx[i] = 0;
       ea_vy[i] = 0;
       ea_pt[i] = 0;
+      ea_c1[i] = 0;
+      ea_c2[i] = 0;
       ea_pt2[i] = 0;
       ea_ptr[i] = 0;
       ea_id[i] = 0;
@@ -346,6 +405,442 @@ var mmyScripts = (function() {
           ea_vx[i] = 2;
           //ea_pt2[i] = str_simg[1];
           ea_type[i] = 1;
+          break;
+        case 5010: //  フライングアイテムボックス上下  1UP
+          ea_con[i] = 1160;
+          ea_id[i] = 11;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 0;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5011: //  フライングアイテムボックス上下  コイン
+          ea_con[i] = 1160;
+          ea_id[i] = 12;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 1;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5012: //  フライングアイテムボックス上下  ファイアボール
+          ea_con[i] = 1160;
+          ea_id[i] = 13;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 2;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5013: //  フライングアイテムボックス上下 バリア
+          ea_con[i] = 1160;
+          ea_id[i] = 14;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 3;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5014: //  フライングアイテムボックス上下 タイム
+          ea_con[i] = 1160;
+          ea_id[i] = 15;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 4;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5015: //  フライングアイテムボックス上下 ジェット
+          ea_con[i] = 1160;
+          ea_id[i] = 16;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 5;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5016: //  フライングアイテムボックス上下 ヘルメット
+          ea_con[i] = 1160;
+          ea_id[i] = 17;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 6;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5017: //  フライングアイテムボックス上下 しっぽ
+          ea_con[i] = 1160;
+          ea_id[i] = 18;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 7;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5018: //  フライングアイテムボックス上下 ドリル
+          ea_con[i] = 1160;
+          ea_id[i] = 19;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 8;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5019: //  フライングアイテムボックス上下 グレネード
+          ea_con[i] = 1160;
+          ea_id[i] = 20;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 9;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5020: //  フライングアイテムボックス右移動  1UP
+          ea_con[i] = 1161;
+          ea_id[i] = 21;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 0;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5021: //  フライングアイテムボックス右移動  コイン
+          ea_con[i] = 1161;
+          ea_id[i] = 22;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 1;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5022: //  フライングアイテムボックス右移動  ファイアボール
+          ea_con[i] = 1161;
+          ea_id[i] = 23;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 2;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5023: //  フライングアイテムボックス右移動 バリア
+          ea_con[i] = 1161;
+          ea_id[i] = 24;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 3;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5024: //  フライングアイテムボックス右移動 タイム
+          ea_con[i] = 1161;
+          ea_id[i] = 25;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 4;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5025: //  フライングアイテムボックス右移動 ジェット
+          ea_con[i] = 1161;
+          ea_id[i] = 26;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 5;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5026: //  フライングアイテムボックス右移動 ヘルメット
+          ea_con[i] = 1161;
+          ea_id[i] = 27;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 6;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5027: //  フライングアイテムボックス右移動 しっぽ
+          ea_con[i] = 1161;
+          ea_id[i] = 28;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 7;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5028: //  フライングアイテムボックス右移動　ドリル
+          ea_con[i] = 1161;
+          ea_id[i] = 29;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 8;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5029: //  フライングアイテムボックス右移動 グレネード
+          ea_con[i] = 1161;
+          ea_id[i] = 30;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 9;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5030: //  フライングアイテムボックス左移動  1UP
+          ea_con[i] = 1162;
+          ea_id[i] = 31;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 0;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5031: //  フライングアイテムボックス左移動  コイン
+          ea_con[i] = 1162;
+          ea_id[i] = 32;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 1;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5032: //  フライングアイテムボックス左移動  ファイアボール
+          ea_con[i] = 1162;
+          ea_id[i] = 33;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 2;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5033: //  フライングアイテムボックス左移動 バリア
+          ea_con[i] = 1162;
+          ea_id[i] = 34;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 3;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5034: //  フライングアイテムボックス左移動 タイム
+          ea_con[i] = 1162;
+          ea_id[i] = 35;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 4;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5035: //  フライングアイテムボックス左移動 ジェット
+          ea_con[i] = 1162;
+          ea_id[i] = 36;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 5;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5036: //  フライングアイテムボックス左移動 ヘルメット
+          ea_con[i] = 1162;
+          ea_id[i] = 37;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 6;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5037: //  フライングアイテムボックス左移動 しっぽ
+          ea_con[i] = 1162;
+          ea_id[i] = 38;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 7;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5038: //  フライングアイテムボックス左移動　ドリル
+          ea_con[i] = 1162;
+          ea_id[i] = 39;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 8;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5039: //  フライングアイテムボックス左移動 グレネード
+          ea_con[i] = 1162;
+          ea_id[i] = 40;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 9;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5040: //  フライングアイテムボックス壁反転  1UP
+          ea_con[i] = 1163;
+          ea_id[i] = 41;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 0;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5041: //  フライングアイテムボックス壁反転  コイン
+          ea_con[i] = 1163;
+          ea_id[i] = 42;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 1;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5042: //  フライングアイテムボックス壁反転  ファイアボール
+          ea_con[i] = 1163;
+          ea_id[i] = 43;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 2;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5043: //  フライングアイテムボックス壁反転 バリア
+          ea_con[i] = 1163;
+          ea_id[i] = 44;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 3;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5044: //  フライングアイテムボックス壁反転 タイム
+          ea_con[i] = 1163;
+          ea_id[i] = 45;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 4;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5045: //  フライングアイテムボックス壁反転 ジェット
+          ea_con[i] = 1163;
+          ea_id[i] = 46;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 5;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5046: //  フライングアイテムボックス壁反転 ヘルメット
+          ea_con[i] = 1163;
+          ea_id[i] = 47;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 6;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5047: //  フライングアイテムボックス壁反転 しっぽ
+          ea_con[i] = 1163;
+          ea_id[i] = 48;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 7;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5048: //  フライングアイテムボックス壁反転　ドリル
+          ea_con[i] = 1163;
+          ea_id[i] = 49;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 8;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5049: //  フライングアイテムボックス壁反転 グレネード
+          ea_con[i] = 1163;
+          ea_id[i] = 50;
+          //ea_pt[i] = 164;
+          ea_vy[i] = 4;
+          ea_vx[i] = 2;
+          ea_c1[i] = 9;
+          ea_yuka1[i] = ap.newYuka(x, y, 32, 31, "rect");
+          ap.setYukaPattern(ea_yuka1[i], 40, 0);
+          break;
+        case 5050: //  放置アイテム !UP
+          ea_con[i] = 1170;
+          ea_id[i] = 51;
+          break;
+        case 5051: //  放置アイテム ファイアボール
+          ea_con[i] = 1172;
+          ea_id[i] = 52;
+          break;
+        case 5052: //  放置アイテム バリア
+          ea_con[i] = 1173;
+          ea_id[i] = 53;
+          break;
+        case 5053: //  放置アイテム タイム
+          ea_con[i] = 1174;
+          ea_id[i] = 54;
+          break;
+        case 5054: //  放置アイテム ジェット
+          ea_con[i] = 1175;
+          ea_id[i] = 55;
+          break;
+        case 5055: //  放置アイテム ヘルメット
+          ea_con[i] = 1176;
+          ea_id[i] = 56;
+          break;
+        case 5056: //  放置アイテム しっぽ
+          ea_con[i] = 1177;
+          ea_id[i] = 57;
+          break;
+        case 5057: //  放置アイテム ドリル
+          ea_con[i] = 1178;
+          ea_id[i] = 58;
+          break;
+        case 5058: //  放置アイテム グレネード
+          ea_con[i] = 1179;
+          ea_id[i] = 59;
           break;
       }
       if (i > ea_id_max) ea_id_max = i;
@@ -653,6 +1148,447 @@ var mmyScripts = (function() {
               ap.setMyMiss(2);
             }
           }
+
+          break;
+          //  フライングアイテムボックス　固定
+        case 1160:
+
+          if (my_x >= ea_x[i] - 15 && my_x + 15 <= ea_x[i] + 31 &&
+            my_y > ea_y[i] && my_y <= ea_y[i] + 31) {
+            ea_y[i] = ea_y[i] - 32;
+            ea_con[i] = 1170 + ea_c1[i];
+            ap.setYukaPattern(ea_yuka1[i], 41, 0);
+            ap.playSound(14);
+            break;
+          }
+          //  移動
+          vy = ea_vy[i]; //  速度
+          if (ea_y[i] < ea_y_or[i] - 128 + 8 || ea_y[i] > ea_y_or[i] - 8) {
+            //  減速
+            vy /= 2;
+          }
+          if (vy < 0) {
+            ea_y[i] += vy;
+            if (ea_y[i] <= ea_y_or[i] - 128) {
+              ea_y[i] = ea_y_or[i] - 128;
+              ea_vy[i] = 4;
+            }
+          } else {
+            ea_y[i] += vy;
+            if (ea_y[i] >= ea_y_or[i]) {
+              ea_y[i] = ea_y_or[i];
+              ea_vy[i] = -4;
+            }
+          }
+
+          ap.setYukaPosition(ea_yuka1[i], ea_x[i], ea_y[i]);
+
+          if (ea_x[i] + 32 - view_x < -31 || ea_x[i] + 32 - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  パターン
+          if (ac_4 <= 1) {
+            os_g.drawImage(wing_simg[0], ea_x[i] - 32 - view_x, ea_y[i] - view_y);
+            os_g.drawImage(wing_simg[2], ea_x[i] + 32 - view_x, ea_y[i] - view_y);
+          } else {
+            os_g.drawImage(wing_simg[1], ea_x[i] - 32 - view_x, ea_y[i] - view_y);
+            os_g.drawImage(wing_simg[3], ea_x[i] + 32 - view_x, ea_y[i] - view_y);
+          }
+
+
+          /*
+          if (my_x >= ea_x[i]-16 && my_x+16 <= ea_x[i]+31 &&
+          my_y > ea_y[i] && my_y-4 <= ea_y[i]+31 && vy < 0) {
+            console.log("now");
+            ea_con[i] = 1161;
+          }
+          else if (my_x >= ea_x[i]-16 && my_x+16 <= ea_x[i]+31 &&
+          my_y > ea_y[i] && my_y <= ea_y[i]+31 && vy > 0) {
+            console.log("now2");
+            ea_con[i] = 1161;
+          }
+          */
+
+          break;
+          //  フライングアイテムボックス　右移動
+        case 1161:
+
+          if (my_x >= ea_x[i] - 15 && my_x + 15 <= ea_x[i] + 31 &&
+            my_y > ea_y[i] && my_y <= ea_y[i] + 31) {
+            ea_y[i] = ea_y[i] - 32;
+            ea_con[i] = 1170 + ea_c1[i];
+            ap.setYukaPattern(ea_yuka1[i], 41, 0);
+            ap.playSound(14);
+            break;
+          }
+          //  移動
+          vy = ea_vy[i]; //  速度
+          if (ea_y[i] < ea_y_or[i] - 128 + 8 || ea_y[i] > ea_y_or[i] - 8) {
+            //  減速
+            vy /= 2;
+          }
+          if (vy < 0) {
+            ea_y[i] += vy;
+            if (ea_y[i] <= ea_y_or[i] - 128) {
+              ea_y[i] = ea_y_or[i] - 128;
+              ea_vy[i] = 4;
+            }
+          } else {
+            ea_y[i] += vy;
+            if (ea_y[i] >= ea_y_or[i]) {
+              ea_y[i] = ea_y_or[i];
+              ea_vy[i] = -4;
+            }
+          }
+          ea_x[i] += ea_vx[i];
+
+          ap.setYukaPosition(ea_yuka1[i], ea_x[i], ea_y[i]);
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - 32 - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  パターン
+          if (ac_4 <= 1) {
+            os_g.drawImage(wing_simg[0], ea_x[i] - 34 - view_x, ea_y[i] - ea_vy[i] - view_y);
+            os_g.drawImage(wing_simg[2], ea_x[i] + 30 - view_x, ea_y[i] - ea_vy[i] - view_y);
+          } else {
+            os_g.drawImage(wing_simg[1], ea_x[i] - 34 - view_x, ea_y[i] - ea_vy[i] - view_y);
+            os_g.drawImage(wing_simg[3], ea_x[i] + 30 - view_x, ea_y[i] - ea_vy[i] - view_y);
+          }
+
+          break;
+          //  フライングアイテムボックス　左移動
+        case 1162:
+
+          if (my_x >= ea_x[i] - 15 && my_x + 15 <= ea_x[i] + 31 &&
+            my_y > ea_y[i] && my_y <= ea_y[i] + 31) {
+            ea_y[i] = ea_y[i] - 32;
+            ea_con[i] = 1170 + ea_c1[i];
+            ap.setYukaPattern(ea_yuka1[i], 41, 0);
+            ap.playSound(14);
+            break;
+          }
+          //  移動
+          vy = ea_vy[i]; //  速度
+          if (ea_y[i] < ea_y_or[i] - 128 + 8 || ea_y[i] > ea_y_or[i] - 8) {
+            //  減速
+            vy /= 2;
+          }
+          if (vy < 0) {
+            ea_y[i] += vy;
+            if (ea_y[i] <= ea_y_or[i] - 128) {
+              ea_y[i] = ea_y_or[i] - 128;
+              ea_vy[i] = 4;
+            }
+          } else {
+            ea_y[i] += vy;
+            if (ea_y[i] >= ea_y_or[i]) {
+              ea_y[i] = ea_y_or[i];
+              ea_vy[i] = -4;
+            }
+          }
+          ea_x[i] -= ea_vx[i];
+
+          if (ea_x[i] + 31 <= 1) {
+            ea_con[i] = 0;
+          }
+
+          ap.setYukaPosition(ea_yuka1[i], ea_x[i], ea_y[i]);
+
+          if (ea_x[i] + 31 - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  パターン
+          if (ac_4 <= 1) {
+            os_g.drawImage(wing_simg[0], ea_x[i] - 30 - view_x, ea_y[i] - ea_vy[i] - view_y);
+            os_g.drawImage(wing_simg[2], ea_x[i] + 34 - view_x, ea_y[i] - ea_vy[i] - view_y);
+          } else {
+            os_g.drawImage(wing_simg[1], ea_x[i] - 30 - view_x, ea_y[i] - ea_vy[i] - view_y);
+            os_g.drawImage(wing_simg[3], ea_x[i] + 34 - view_x, ea_y[i] - ea_vy[i] - view_y);
+          }
+
+          break;
+          //  フライングアイテムボックス　壁反転
+        case 1163:
+
+          if (my_x >= ea_x[i] - 15 && my_x + 15 <= ea_x[i] + 31 &&
+            my_y > ea_y[i] && my_y <= ea_y[i] + 31) {
+            ea_y[i] = ea_y[i] - 32;
+            ea_con[i] = 1170 + ea_c1[i];
+            ap.setYukaPattern(ea_yuka1[i], 41, 0);
+            ap.playSound(14);
+            break;
+          }
+          //  移動
+          vy = ea_vy[i]; //  速度
+          if (ea_y[i] < ea_y_or[i] - 128 + 8 || ea_y[i] > ea_y_or[i] - 8) {
+            //  減速
+            vy /= 2;
+          }
+          if (vy < 0) {
+            ea_y[i] += vy;
+            if (ea_y[i] <= ea_y_or[i] - 128) {
+              ea_y[i] = ea_y_or[i] - 128;
+              ea_vy[i] = 4;
+            }
+          } else {
+            ea_y[i] += vy;
+            if (ea_y[i] >= ea_y_or[i]) {
+              ea_y[i] = ea_y_or[i];
+              ea_vy[i] = -4;
+            }
+          }
+          ea_x[i] += ea_vx[i];
+          if (ea_vx[i] < 0) {
+            vx = ap.getMapchip(Math.floor(ea_x[i] / 32) - 1, Math.floor(ea_y[i] / 32) - 10);
+            if (vx >= 18 || vx < 0) {
+              ea_x[i] = Math.floor(ea_x[i] / 32) * 32 + 32;
+              ea_vx[i] = 2;
+            }
+          } else {
+            vx = ap.getMapchip(Math.floor((ea_x[i] + 31) / 32) - 1, Math.floor(ea_y[i] / 32) - 10);
+            if (vx >= 18 || vx < 0) {
+              ea_x[i] = Math.floor((ea_x[i] + 31) / 32) * 32 - 32;
+              ea_vx[i] = -2;
+            }
+          }
+          ap.setYukaPosition(ea_yuka1[i], ea_x[i], ea_y[i]);
+
+          if (ea_x[i] + 31 - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  パターン
+          if (ac_4 <= 1) {
+            os_g.drawImage(wing_simg[0], ea_x[i] - 32 - ea_vx[i] - view_x, ea_y[i] - ea_vy[i] - view_y);
+            os_g.drawImage(wing_simg[2], ea_x[i] + 32 - ea_vx[i] - view_x, ea_y[i] - ea_vy[i] - view_y);
+          } else {
+            os_g.drawImage(wing_simg[1], ea_x[i] - 32 - ea_vx[i] - view_x, ea_y[i] - ea_vy[i] - view_y);
+            os_g.drawImage(wing_simg[3], ea_x[i] + 32 - ea_vx[i] - view_x, ea_y[i] - ea_vy[i] - view_y);
+          }
+
+          break;
+          //>>1up
+        case 1170:
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  自分との当たり判定
+          if (my_x + 15 >= ea_x[i] && my_x + 15 <= ea_x[i] + 31 &&
+            my_y + 15 >= ea_y[i] && my_y + 15 <= ea_y[i] + 31) {
+
+            ea_con[i] = 0;
+            ap.addScore(5);
+            ap.setMyLeft(ap.getMyLeft() + 1);
+            ap.playSound(8);
+          }
+          ap.drawPattern(ea_x[i] - view_x, ea_y[i] - view_y, 59, 0);
+
+          break;
+          //  >>コイン
+        case 1171:
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  自分との当たり判定
+          if (my_x + 15 >= ea_x[i] && my_x + 15 <= ea_x[i] + 31 &&
+            my_y + 15 >= ea_y[i] && my_y + 15 <= ea_y[i] + 31) {
+
+            ea_con[i] = 0;
+            ap.addScore(5);
+            ap.playSound(7);
+          }
+          ea_c2[i] = 90 + Math.floor(ac_8 / 2);
+          ap.drawPattern(ea_x[i] - view_x, ea_y[i] - view_y, ea_c2[i], 0);
+
+          break;
+          //>>ファイアボール
+        case 1172:
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  自分との当たり判定
+          if (my_x + 15 >= ea_x[i] && my_x + 15 <= ea_x[i] + 31 &&
+            my_y + 15 >= ea_y[i] && my_y + 15 <= ea_y[i] + 31) {
+
+            ea_con[i] = 0;
+            ap.addScore(5);
+            ap.equipFire(1);
+            ap.playSound(8);
+
+          }
+          ap.drawPattern(ea_x[i] - view_x, ea_y[i] - view_y, 42, 0);
+
+          break;
+          //>>バリア
+        case 1173:
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  自分との当たり判定
+          if (my_x + 15 >= ea_x[i] && my_x + 15 <= ea_x[i] + 31 &&
+            my_y + 15 >= ea_y[i] && my_y + 15 <= ea_y[i] + 31) {
+
+            ea_con[i] = 0;
+            ap.addScore(5);
+            ap.equipBarrier(150);
+            ap.playSound(8);
+          }
+          ap.drawPattern(ea_x[i] - view_x, ea_y[i] - view_y, 43, 0);
+
+          break;
+          //>>タイム
+        case 1174:
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  自分との当たり判定
+          if (my_x + 15 >= ea_x[i] && my_x + 15 <= ea_x[i] + 31 &&
+            my_y + 15 >= ea_y[i] && my_y + 15 <= ea_y[i] + 31) {
+
+            ea_con[i] = 0;
+            ap.addScore(5);
+            ap.setTimeLimit(ap.getTimeLimit() + 30);
+            ap.playSound(8);
+          }
+          ap.drawPattern(ea_x[i] - view_x, ea_y[i] - view_y, 44, 0);
+
+          break;
+          //>>ジェット
+        case 1175:
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  自分との当たり判定
+          if (my_x + 15 >= ea_x[i] && my_x + 15 <= ea_x[i] + 31 &&
+            my_y + 15 >= ea_y[i] && my_y + 15 <= ea_y[i] + 31) {
+
+            ea_con[i] = 0;
+            ap.addScore(5);
+            ap.equipJet(80);
+            ap.playSound(8);
+          }
+          ap.drawPattern(ea_x[i] - view_x, ea_y[i] - view_y, 45, 0);
+
+          break;
+          //>>ヘルメット
+        case 1176:
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  自分との当たり判定
+          if (my_x + 15 >= ea_x[i] && my_x + 15 <= ea_x[i] + 31 &&
+            my_y + 15 >= ea_y[i] && my_y + 15 <= ea_y[i] + 31) {
+
+            ea_con[i] = 0;
+            ap.addScore(5);
+            ap.addMyTokugi(1);
+            ap.playSound(8);
+
+          }
+          ap.drawPattern(ea_x[i] - view_x, ea_y[i] - view_y, 46, 0);
+
+          break;
+          //>>しっぽ
+        case 1177:
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  自分との当たり判定
+          if (my_x + 15 >= ea_x[i] && my_x + 15 <= ea_x[i] + 31 &&
+            my_y + 15 >= ea_y[i] && my_y + 15 <= ea_y[i] + 31) {
+
+            ea_con[i] = 0;
+            ap.addScore(5);
+            ap.equipTail(1);
+            ap.playSound(8);
+          }
+          ap.drawPattern(ea_x[i] - view_x, ea_y[i] - view_y, 47, 0);
+
+          break;
+          //>>ドリル
+        case 1178:
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  自分との当たり判定
+          if (my_x + 15 >= ea_x[i] && my_x + 15 <= ea_x[i] + 31 &&
+            my_y + 15 >= ea_y[i] && my_y + 15 <= ea_y[i] + 31) {
+
+            ea_con[i] = 0;
+            ap.addScore(5);
+            ap.addMyTokugi(2);
+            ap.playSound(8);
+          }
+          ap.drawPattern(ea_x[i] - view_x, ea_y[i] - view_y, 48, 0);
+
+          break;
+          //>>グレネード
+        case 1179:
+
+          if (ea_x[i] - view_x < -31 || ea_x[i] - view_x > 519 ||
+            ea_y[i] - view_y < -31 || ea_y[i] - view_y > 319) {
+            ea_pt[i] = 0;
+            break;
+          }
+
+          //  自分との当たり判定
+          if (my_x + 15 >= ea_x[i] && my_x + 15 <= ea_x[i] + 31 &&
+            my_y + 15 >= ea_y[i] && my_y + 15 <= ea_y[i] + 31) {
+
+            ea_con[i] = 0;
+            ap.addScore(5);
+            ap.equipGrenade(1);
+            ap.playSound(8);
+          }
+          ap.drawPattern(ea_x[i] - view_x, ea_y[i] - view_y, 49, 0);
 
           break;
       }
@@ -1021,6 +1957,8 @@ var mmyScripts = (function() {
 
       ac_4++;
       if (ac_4 > 3) ac_4 = 0;
+      ac_8++;
+      if (ac_8 > 7) ac_8 = 0;
 
       //  拡張仕掛け　動作
       moveExtendAth(os_g, ap, view_x, view_y);
